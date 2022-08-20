@@ -11,19 +11,19 @@ import {
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
-export const Dropdown = () => {
+export const DropdownIcon = () => {
   const { data: session, status } = useSession();
 
   return (
     <>
-      <div className="block text-right sm:hidden">
+      <div className="hidden  text-right sm:block">
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="inline-flex w-full justify-center rounded-md border-2  px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              Menu
-              <ChevronDownIcon
-                className="ml-2 -mr-1 h-5 w-5 text-white"
-                aria-hidden="true"
+            <Menu.Button>
+              <img
+                src={session?.user?.image as string}
+                alt="user-icon"
+                className="hidden h-12 w-12 rounded-full sm:block"
               />
             </Menu.Button>
           </div>
