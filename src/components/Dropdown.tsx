@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import {
@@ -10,8 +9,9 @@ import {
 } from "@heroicons/react/solid";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
-export const Dropdown = () => {
+export const Dropdown: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
@@ -71,7 +71,7 @@ export const Dropdown = () => {
                 </a>
               </div>
               <div className="px-1 py-1">
-                <Link href="/sign-in">
+                <Link href={status === "authenticated" ? "/me" : "/sign-in"}>
                   <Menu.Item>
                     {({ active }) => (
                       <button
@@ -80,11 +80,20 @@ export const Dropdown = () => {
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
                         {status === "authenticated" ? (
-                          <img
-                            src={session.user?.image as string}
-                            alt="user-icon"
-                            className="mr-2 h-5 w-5"
-                          />
+                          <span className="mr-2 h-5">
+                            <Image
+                              src={session.user?.image as string}
+                              alt="user-icon"
+                              className="mr-2 h-5 w-5 rounded-full"
+                              layout="fixed"
+                              width="20px"
+                              height="20px"
+                              quality={100}
+                              style={{
+                                marginRight: "0.5rem",
+                              }}
+                            />
+                          </span>
                         ) : (
                           <UserIcon
                             className="mr-2 h-5 w-5"
@@ -98,27 +107,26 @@ export const Dropdown = () => {
                     )}
                   </Menu.Item>
                 </Link>
+
                 {status === "authenticated" && (
-                  <Link href="/sign-in">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active ? "bg-stone-700 text-white" : "text-white"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          onClick={() => {
-                            signOut();
-                          }}
-                        >
-                          <UserRemoveIcon
-                            className="mr-2 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                          Sign out
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </Link>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active ? "bg-stone-700 text-white" : "text-white"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        onClick={() => {
+                          signOut();
+                        }}
+                      >
+                        <UserRemoveIcon
+                          className="mr-2 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                        Sign out
+                      </button>
+                    )}
+                  </Menu.Item>
                 )}
               </div>
             </Menu.Items>

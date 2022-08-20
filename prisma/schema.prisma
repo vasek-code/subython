@@ -45,6 +45,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+
+    StreamLabsToken StreamLabsToken[]
 }
 
 model VerificationToken {
@@ -53,4 +55,16 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model StreamLabsToken {
+    id           String   @id @default(cuid())
+    accessToken  String
+    refreshToken String
+    socketToken  String
+    expires_in   Int
+    created_at   DateTime @default(now())
+
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id])
 }

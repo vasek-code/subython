@@ -5,11 +5,25 @@ import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
 import "../styles/globals.css";
+import { useRouter } from "next/router";
+import { MePageLayout } from "../components/MePageLayout";
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const router = useRouter();
+
+  if (router.pathname.startsWith("/me")) {
+    return (
+      <SessionProvider session={session}>
+        <MePageLayout>
+          <Component {...pageProps} />
+        </MePageLayout>
+      </SessionProvider>
+    );
+  }
+
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />

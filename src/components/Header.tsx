@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";

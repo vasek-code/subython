@@ -1,62 +1,34 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
-import { env } from "../env/client.mjs";
+import { timeConverter } from "../utils/time-converter";
 
-function timeConverter(UNIX_timestamp: number) {
-  const date = new Date(UNIX_timestamp * 1000);
+const Home: NextPage<{
+  initTime: number;
+}> = ({ initTime }) => {
+  const [currentTime, setCurrentTime] = useState(initTime);
 
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  let sec = date.getSeconds().toLocaleString();
-
-  if (sec.toLocaleString().length !== 2) {
-    sec = "0" + sec.toLocaleString();
-  }
-
-  const time = hour + ":" + min + ":" + sec;
-
-  return time;
-}
-
-const Home: NextPage = () => {
-  const { data: session, status } = useSession();
-
-  const [currentTime, setCurrentTime] = useState(0);
+  const { status } = useSession();
 
   useEffect(() => {
-    if (status === "unauthenticated" || !session?.user?.id) return () => {};
-
-    const pusher = new Pusher(env.NEXT_PUBLIC_PUSHER_KEY, {
-      cluster: env.NEXT_PUBLIC_PUSHER_CLUSTER,
-      forceTLS: true,
-    });
-
-    const channel = pusher.subscribe(session?.user?.id as string);
-
-    channel.bind("time-update", (data: string) => {
-      setCurrentTime(parseInt(data));
-    });
-
-    fetch("http://localhost:3000/api/pusher/init")
-      .then((res) => res.text())
-      .then((data) => console.log(data));
+    const interval = setInterval(() => {
+      setCurrentTime((prevState) => prevState - 1);
+    }, 1000);
 
     return () => {
-      pusher.unsubscribe(session?.user?.id as string);
+      clearInterval(interval);
     };
-  }, [session?.user?.id, status]);
+  }, []);
 
   return (
     <>
       <Head>
-        <title>SubYTon</title>
+        <title>SubYThon</title>
       </Head>
       <main className="max-h-screen min-h-screen w-full">
         <Header />
@@ -70,19 +42,40 @@ const Home: NextPage = () => {
               </h1>
               <h2 className="mt-3 text-xl text-gray-300">
                 Easy, free, fast way to setup your <br />
-                YouTube subathon timer.
+                YouTube subathon timer that works <br /> with{" "}
+                <a
+                  href="https://streamlabs.com/"
+                  rel="noreferrer"
+                  target="_blank"
+                  className="cursor-pointer text-gray-400"
+                >
+                  streamlabs{" "}
+                </a>
+                completely on web.
               </h2>
               <div className="pt-10">
-                <Link href="/sign-in">
+                <Link href={status === "unauthenticated" ? "/sign-in" : "/me"}>
                   <a className="rounded-md bg-red-600 py-4 px-5 font-medium text-white hover:bg-red-700">
-                    Setup free account now
+                    {status === "unauthenticated"
+                      ? "Setup free account now"
+                      : "Setup your timer now"}
                   </a>
                 </Link>
               </div>
             </div>
             <div className="flex w-full items-center justify-center pt-20 lg:pt-0">
               <h2 className="h-min text-7xl font-bold text-white sm:text-8xl">
-                {timeConverter(currentTime)}
+                {timeConverter(currentTime).hour.toLocaleString().length === 2
+                  ? timeConverter(currentTime).hour.toLocaleString()
+                  : `0${timeConverter(currentTime).hour.toLocaleString()}`}
+                :
+                {timeConverter(currentTime).min.toLocaleString().length === 2
+                  ? timeConverter(currentTime).min.toLocaleString()
+                  : `0${timeConverter(currentTime).min.toLocaleString()}`}
+                :
+                {timeConverter(currentTime).sec.toLocaleString().length === 2
+                  ? timeConverter(currentTime).sec.toLocaleString()
+                  : `0${timeConverter(currentTime).sec.toLocaleString()}`}
               </h2>
             </div>
           </div>
@@ -93,3 +86,13 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const initTime = Math.floor(new Date().getTime() / 1000);
+
+  return {
+    props: {
+      initTime,
+    },
+  };
+};
