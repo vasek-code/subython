@@ -6,3 +6,5 @@ node_modules
 next.config.mjs
 
 postcss.config.cjs
+
+tailwind.config.cjs
