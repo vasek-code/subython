@@ -73,6 +73,15 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "StreamLabsToken_accessToken_key" ON "StreamLabsToken"("accessToken");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "StreamLabsToken_refreshToken_key" ON "StreamLabsToken"("refreshToken");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "StreamLabsToken_socketToken_key" ON "StreamLabsToken"("socketToken");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "StreamLabsToken_userId_key" ON "StreamLabsToken"("userId");
 
 -- AddForeignKey

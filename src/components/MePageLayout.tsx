@@ -11,7 +11,12 @@ export const MePageLayout: React.FC<{
 
   return (
     <main className="flex h-screen w-full flex-row">
-      <section className="flex h-full w-72 flex-col bg-stone-800">
+      <section
+        className="flex h-full flex-col bg-stone-800"
+        style={{
+          minWidth: "16rem",
+        }}
+      >
         <div className="flex h-28 w-full items-center pl-6">
           <Link href="/">
             <h1 className="cursor-pointer text-3xl font-extrabold text-white hover:text-opacity-80">

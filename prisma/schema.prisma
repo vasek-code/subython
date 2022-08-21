@@ -46,7 +46,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
-    StreamLabsToken StreamLabsToken[]
+    streamLabsToken StreamLabsToken?
 }
 
 model VerificationToken {
@@ -59,9 +59,9 @@ model VerificationToken {
 
 model StreamLabsToken {
     id           String   @id @default(cuid())
-    accessToken  String
-    refreshToken String
-    socketToken  String
+    accessToken  String   @unique
+    refreshToken String   @unique
+    socketToken  String   @unique
     expires_in   Int
     created_at   DateTime @default(now())
 
