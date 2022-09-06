@@ -8,14 +8,13 @@ export const Header: React.FC = () => {
   const { status } = useSession();
 
   return (
-    <header className="container flex w-full justify-end bg-transparent  py-8 px-5 sm:justify-between sm:px-7 md:px-16 lg:px-20">
+    <header className="absolute flex w-full justify-end bg-transparent  py-8 px-5 sm:justify-between sm:px-7 md:px-16 lg:px-20 xl:px-28">
       <div className="hidden items-center gap-8 sm:flex">
         <Link href="/features">
           <a className="text-base font-medium text-white hover:text-gray-200">
             Features
           </a>
         </Link>
-
         <a
           className="text-base font-medium text-white hover:text-gray-200"
           href="https://discord.gg"

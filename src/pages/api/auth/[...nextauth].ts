@@ -20,10 +20,25 @@ export const authOptions: NextAuthOptions = {
         });
 
         session.user.streamLabsToken = streamLabsToken;
+
+        const time = await prisma.user.findFirst({
+          where: {
+            id: user.id,
+          },
+          select: {
+            time: true,
+            timeState: true,
+            timerSettings: true,
+          },
+        });
+
+        session.user.timerSettings = time?.timerSettings;
+        session.user.time = time?.time;
+        session.user.timeState = time?.timeState;
       }
       return session;
     },
-    redirect() {
+    async redirect() {
       return "/me";
     },
   },

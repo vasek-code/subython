@@ -8,7 +8,11 @@ module.exports = {
     container: {
       center: true,
     },
-    extend: {},
+    extend: {
+      colors: {
+        youtube: "#ff0000",
+      },
+    },
   },
   plugins: [],
 };

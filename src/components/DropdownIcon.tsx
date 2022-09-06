@@ -10,20 +10,22 @@ export const DropdownIcon = () => {
 
   return (
     <>
-      <div className="hidden  text-right sm:block">
+      <div className="text-right sm:block">
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button>
-              <Image
-                src={session?.user?.image as string}
-                alt="user-icon"
-                draggable={false}
-                className="hidden h-12 w-12 rounded-full sm:block"
-                layout="fixed"
-                width="48px"
-                height="48px"
-                quality={100}
-              />
+              {status === "authenticated" && (
+                <Image
+                  src={session?.user?.image as string}
+                  alt="user-icon"
+                  draggable={false}
+                  className="hidden h-12 w-12 rounded-full sm:block"
+                  layout="fixed"
+                  width="48px"
+                  height="48px"
+                  quality={100}
+                />
+              )}
             </Menu.Button>
           </div>
           <Transition

@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "TimeState" AS ENUM ('STOPPED', 'ACTIVE');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -33,6 +36,8 @@ CREATE TABLE "User" (
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
+    "time" INTEGER NOT NULL DEFAULT 1,
+    "timeState" "TimeState" NOT NULL DEFAULT 'STOPPED',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -52,9 +57,42 @@ CREATE TABLE "StreamLabsToken" (
     "socketToken" TEXT NOT NULL,
     "expires_in" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "streamLabsUser" JSONB,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "StreamLabsToken_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TimerSettings" (
+    "id" TEXT NOT NULL,
+    "totalDonations" INTEGER NOT NULL DEFAULT 0,
+    "totalMembers" INTEGER NOT NULL DEFAULT 0,
+    "totalSuperchat" INTEGER NOT NULL DEFAULT 0,
+    "donationsOn" BOOLEAN NOT NULL DEFAULT false,
+    "subscribersOn" BOOLEAN NOT NULL DEFAULT false,
+    "membersOn" BOOLEAN NOT NULL DEFAULT false,
+    "superchatOn" BOOLEAN NOT NULL DEFAULT false,
+    "perDonation" INTEGER NOT NULL DEFAULT 1,
+    "secondsDonation" INTEGER NOT NULL DEFAULT 0,
+    "perSuperchat" INTEGER NOT NULL DEFAULT 1,
+    "secondsSuperchat" INTEGER NOT NULL DEFAULT 0,
+    "member1Name" TEXT NOT NULL DEFAULT 'Name1',
+    "member2Name" TEXT NOT NULL DEFAULT 'Name2',
+    "member3Name" TEXT NOT NULL DEFAULT 'Name3',
+    "member4Name" TEXT NOT NULL DEFAULT 'Name4',
+    "member5Name" TEXT NOT NULL DEFAULT 'Name5',
+    "member6Name" TEXT NOT NULL DEFAULT 'Name6',
+    "member1Secoonds" INTEGER NOT NULL DEFAULT 0,
+    "member2Secoonds" INTEGER NOT NULL DEFAULT 0,
+    "member3Secoonds" INTEGER NOT NULL DEFAULT 0,
+    "member4Secoonds" INTEGER NOT NULL DEFAULT 0,
+    "member5Secoonds" INTEGER NOT NULL DEFAULT 0,
+    "member6Secoonds" INTEGER NOT NULL DEFAULT 0,
+    "secondsSubscriber" INTEGER NOT NULL DEFAULT 0,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "TimerSettings_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -84,6 +122,9 @@ CREATE UNIQUE INDEX "StreamLabsToken_socketToken_key" ON "StreamLabsToken"("sock
 -- CreateIndex
 CREATE UNIQUE INDEX "StreamLabsToken_userId_key" ON "StreamLabsToken"("userId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "TimerSettings_userId_key" ON "TimerSettings"("userId");
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -92,3 +133,6 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "StreamLabsToken" ADD CONSTRAINT "StreamLabsToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TimerSettings" ADD CONSTRAINT "TimerSettings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

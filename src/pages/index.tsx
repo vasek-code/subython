@@ -30,12 +30,17 @@ const Home: NextPage<{
       <Head>
         <title>SubYThon</title>
       </Head>
-      <main className="max-h-screen min-h-screen w-full">
-        <Header />
-        <section className="min-h-full w-full">
-          <div className="container flex flex-col px-5 pt-10 sm:px-32 sm:pt-20 lg:flex-row">
-            <div className="flex h-full w-full flex-col">
-              <h1 className="text-7xl font-extrabold text-white">
+      <Header />
+      <main
+        className="flex h-screen w-full flex-col"
+        style={{
+          paddingTop: "118px",
+        }}
+      >
+        <section className="h-full w-full pb-40">
+          <div className="flex h-full flex-col px-5 sm:px-32 lg:flex-row">
+            <div className="flex h-full w-full flex-col justify-center">
+              <h1 className="text-6xl font-extrabold text-white sm:text-7xl">
                 Sub<span className="text-red-600">Y</span>
                 <span className="text-white">T</span>hon
                 <span className="block text-red-300">timer</span>
@@ -63,7 +68,7 @@ const Home: NextPage<{
                 </Link>
               </div>
             </div>
-            <div className="flex w-full items-center justify-center pt-20 lg:pt-0">
+            <div className="flex h-full w-full items-center justify-center pt-20 lg:pt-0">
               <h2 className="h-min text-7xl font-bold text-white sm:text-8xl">
                 {timeConverter(currentTime).hour.toLocaleString().length === 2
                   ? timeConverter(currentTime).hour.toLocaleString()

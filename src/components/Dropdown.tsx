@@ -81,18 +81,20 @@ export const Dropdown: React.FC = () => {
                       >
                         {status === "authenticated" ? (
                           <span className="mr-2 h-5">
-                            <Image
-                              src={session.user?.image as string}
-                              alt="user-icon"
-                              className="mr-2 h-5 w-5 rounded-full"
-                              layout="fixed"
-                              width="20px"
-                              height="20px"
-                              quality={100}
-                              style={{
-                                marginRight: "0.5rem",
-                              }}
-                            />
+                            {status === "authenticated" && (
+                              <Image
+                                src={session.user?.image as string}
+                                alt="user-icon"
+                                className="mr-2 h-5 w-5 rounded-full"
+                                layout="fixed"
+                                width="20px"
+                                height="20px"
+                                quality={100}
+                                style={{
+                                  marginRight: "0.5rem",
+                                }}
+                              />
+                            )}
                           </span>
                         ) : (
                           <UserIcon

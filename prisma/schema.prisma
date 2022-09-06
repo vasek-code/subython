@@ -45,8 +45,11 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    time          Int       @default(1)
+    timeState     TimeState @default(STOPPED)
 
     streamLabsToken StreamLabsToken?
+    timerSettings   TimerSettings?
 }
 
 model VerificationToken {
@@ -58,13 +61,57 @@ model VerificationToken {
 }
 
 model StreamLabsToken {
-    id           String   @id @default(cuid())
-    accessToken  String   @unique
-    refreshToken String   @unique
-    socketToken  String   @unique
-    expires_in   Int
-    created_at   DateTime @default(now())
+    id             String   @id @default(cuid())
+    accessToken    String   @unique
+    refreshToken   String   @unique
+    socketToken    String   @unique
+    expires_in     Int
+    created_at     DateTime @default(now())
+    streamLabsUser Json?
 
     userId String @unique
     user   User   @relation(fields: [userId], references: [id])
+}
+
+model TimerSettings {
+    id String @id @default(cuid())
+
+    totalDonations Int @default(0)
+    totalMembers   Int @default(0)
+    totalSuperchat Int @default(0)
+
+    donationsOn   Boolean @default(false)
+    subscribersOn Boolean @default(false)
+    membersOn     Boolean @default(false)
+    superchatOn   Boolean @default(false)
+
+    perDonation     Int @default(1)
+    secondsDonation Int @default(0)
+
+    perSuperchat     Int @default(1)
+    secondsSuperchat Int @default(0)
+
+    member1Name String @default("Name1")
+    member2Name String @default("Name2")
+    member3Name String @default("Name3")
+    member4Name String @default("Name4")
+    member5Name String @default("Name5")
+    member6Name String @default("Name6")
+
+    member1Secoonds Int @default(0)
+    member2Secoonds Int @default(0)
+    member3Secoonds Int @default(0)
+    member4Secoonds Int @default(0)
+    member5Secoonds Int @default(0)
+    member6Secoonds Int @default(0)
+
+    secondsSubscriber Int @default(0)
+
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id])
+}
+
+enum TimeState {
+    STOPPED
+    ACTIVE
 }

@@ -5,7 +5,6 @@ import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/router";
 import { MePageLayout } from "../components/MePageLayout";
-
 import "toastify-js/src/toastify.css";
 import "../styles/globals.css";
 

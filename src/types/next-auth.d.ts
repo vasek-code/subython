@@ -1,4 +1,4 @@
-import { StreamLabsToken } from "@prisma/client";
+import { StreamLabsToken, TimerSettings, type TimeState } from "@prisma/client";
 import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
@@ -9,6 +9,9 @@ declare module "next-auth" {
     user?: {
       id: string;
       streamLabsToken?: StreamLabsToken | null | undefined;
+      time: number | null | undefined;
+      timeState: TimeState | null | undefined;
+      timerSettings: TimerSettings | null | undefined;
     } & DefaultSession["user"];
   }
 }
