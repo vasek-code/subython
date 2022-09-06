@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { GetServerSidePropsContext, NextPage } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -83,6 +84,7 @@ const ConfigurePage: NextPage = () => {
             >
               <Image
                 src={
+                  // @ts-ignore comment
                   session?.user?.streamLabsToken?.streamLabsUser.streamlabs
                     .thumbnail as string
                 }
@@ -95,17 +97,22 @@ const ConfigurePage: NextPage = () => {
             <div className="flex h-full flex-col justify-center pl-5">
               <h2 className="text-2xl font-medium text-white">
                 {
+                  // @ts-ignore comment
                   session?.user?.streamLabsToken?.streamLabsUser.streamlabs
                     ?.display_name
                 }
               </h2>
               <h3 className="text-1xl font-medium text-stone-400">
                 id:{" "}
-                {session?.user?.streamLabsToken?.streamLabsUser.streamlabs?.id}
+                {
+                  // @ts-ignore comment
+                  session?.user?.streamLabsToken?.streamLabsUser.streamlabs?.id
+                }
               </h3>
               <h3 className="text-1xl font-medium text-stone-400">
                 username:{" "}
                 {
+                  // @ts-ignore comment
                   session?.user?.streamLabsToken?.streamLabsUser.streamlabs
                     ?.username
                 }
@@ -134,50 +141,62 @@ const ConfigurePage: NextPage = () => {
               <div className="flex flex-col gap-3">
                 <h2 className="text-xl text-white">Services connected</h2>
                 <div className="relative flex items-center gap-3">
-                  {session?.user?.streamLabsToken?.streamLabsUser.youtube && (
-                    <a
-                      href={`https://youtube.com/channel/${session?.user?.streamLabsToken?.streamLabsUser.youtube.id}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FontAwesomeIcon
-                        icon={faYoutube}
-                        color="#ff0000"
-                        className="h-12 w-12"
-                      />
-                    </a>
-                  )}
-                  {session?.user?.streamLabsToken?.streamLabsUser.twitch && (
-                    <a
-                      href={`https://twitch.tv/${session?.user?.streamLabsToken?.streamLabsUser.twitch.name}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FontAwesomeIcon
-                        icon={faTwitch}
-                        color="#8a45f1"
-                        className="h-10 w-10"
-                      />
-                    </a>
-                  )}
+                  {
+                    // @ts-ignore comment
+                    session?.user?.streamLabsToken?.streamLabsUser.youtube && (
+                      <a
+                        // @ts-ignore comment
+                        href={`https://youtube.com/channel/${session?.user?.streamLabsToken?.streamLabsUser.youtube.id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FontAwesomeIcon
+                          icon={faYoutube}
+                          color="#ff0000"
+                          className="h-12 w-12"
+                        />
+                      </a>
+                    )
+                  }
+
+                  {
+                    // @ts-ignore comment
+                    session?.user?.streamLabsToken?.streamLabsUser.twitch && (
+                      <a
+                        // @ts-ignore comment
+                        href={`https://twitch.tv/${session?.user?.streamLabsToken?.streamLabsUser.twitch.name}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FontAwesomeIcon
+                          icon={faTwitch}
+                          color="#8a45f1"
+                          className="h-10 w-10"
+                        />
+                      </a>
+                    )
+                  }
                 </div>
               </div>
               <div className="flex flex-col gap-3">
                 <h2 className="text-xl text-white">Ready for timer?</h2>
                 <div className="relative flex items-center">
-                  {session?.user?.streamLabsToken?.streamLabsUser.youtube &&
-                  session.user.streamLabsToken.accessToken &&
-                  session.user.streamLabsToken.socketToken ? (
-                    <h2 className="flex h-full items-center text-lg text-white">
-                      Yes
-                      <div className="ml-2 inline-block h-5 w-5 rounded-full bg-green-500"></div>
-                    </h2>
-                  ) : (
-                    <h2 className="flex h-full items-center text-lg text-white">
-                      No
-                      <div className="ml-2 inline-block h-5 w-5 rounded-full bg-red-500"></div>
-                    </h2>
-                  )}
+                  {
+                    // @ts-ignore comment
+                    session?.user?.streamLabsToken?.streamLabsUser.youtube &&
+                    session.user.streamLabsToken.accessToken &&
+                    session.user.streamLabsToken.socketToken ? (
+                      <h2 className="flex h-full items-center text-lg text-white">
+                        Yes
+                        <div className="ml-2 inline-block h-5 w-5 rounded-full bg-green-500"></div>
+                      </h2>
+                    ) : (
+                      <h2 className="flex h-full items-center text-lg text-white">
+                        No
+                        <div className="ml-2 inline-block h-5 w-5 rounded-full bg-red-500"></div>
+                      </h2>
+                    )
+                  }
                 </div>
               </div>
               <div className="flex gap-3">
