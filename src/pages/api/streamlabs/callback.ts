@@ -24,7 +24,7 @@ const StreamLabsAuth: NextApiHandler = async (req, res) => {
     formTokenData.append("client_secret", env.SL_CLIENT_SECRET);
     formTokenData.append(
       "redirect_uri",
-      "http://localhost:3000/api/streamlabs/callback"
+      `${process.env.BASE_URL}/api/streamlabs/callback`
     );
     formTokenData.append("code", code);
 

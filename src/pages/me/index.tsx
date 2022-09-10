@@ -242,7 +242,7 @@ const UserPage: NextPage<{
               className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600"
               onClick={async () => {
                 await navigator.clipboard.writeText(
-                  `http://localhost:3000/embed/${session?.user?.id}`
+                  `${process.env.NEXT_PUBLIC_BASE_URL}/embed/${session?.user?.id}`
                 );
 
                 alertSuccess("Copied to clipboard!");
