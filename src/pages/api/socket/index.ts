@@ -146,6 +146,8 @@ export default async function SocketHandler(
               SERVER_IO.to(userId).emit("time_update", GLOBAL_TIME);
 
               await setTime({ userId, time: GLOBAL_TIME });
+
+              SERVER_IO.to(userId).emit("reload_session");
             });
 
             socket.on("time_unstop", async () => {
@@ -156,6 +158,8 @@ export default async function SocketHandler(
               SERVER_IO.to(userId).emit("time_update", GLOBAL_TIME);
 
               await setStateStart(userId);
+
+              SERVER_IO.to(userId).emit("reload_session");
             });
 
             socket.on("time_set", async (time: number) => {

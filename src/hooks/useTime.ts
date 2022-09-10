@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client1";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { convertMsToTime } from "../utils/ms-to-time";
+import { reloadSession } from "../utils/reload-session";
 
 export default function useTime(userId: string) {
   const [socket, setSocket] =
@@ -58,6 +59,12 @@ export default function useTime(userId: string) {
       setTime(convertMsToTime(time));
 
       console.log(time);
+    });
+
+    socket.on("reload_session", () => {
+      reloadSession();
+
+      console.log("REALOADED SESSION");
     });
   }, [socket, userId]);
 
