@@ -10,9 +10,9 @@ export default function useTime(userId: string) {
   const [time, setTime] = useState(convertMsToTime(0));
 
   useEffect(() => {
-    if (socket) return;
-
     fetch("/api/socket").then(() => {
+      console.log(socket?.connected);
+
       setSocket(io());
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,6 +45,8 @@ export default function useTime(userId: string) {
     };
 
     const roomId = guid();
+
+    console.log(roomId);
 
     socket.on("connect", () => {
       console.log("CONNECTED");

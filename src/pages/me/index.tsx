@@ -21,12 +21,15 @@ import { useSession } from "next-auth/react";
 import { reloadSession } from "../../utils/reload-session";
 import alertError from "../../utils/alert-error";
 import alertSuccess from "../../utils/alert-success";
+import { useRouter } from "next/router";
 
 const UserPage: NextPage<{
   id: string;
   socketToken: string | undefined | null;
 }> = ({ id, socketToken }) => {
   const { data: session } = useSession();
+
+  const router = useRouter();
 
   const [disabled, setDisabled] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -64,7 +67,22 @@ const UserPage: NextPage<{
 
   if (!socketToken) {
     return (
-      <div className="text-white">Please connect your streamlabs first</div>
+      <div className="flex h-full w-full items-center justify-center pt-28 text-white">
+        <h1 className="text-center text-2xl">
+          You need to{" "}
+          <span>
+            <button
+              onClick={() => {
+                router.push("/me/configure");
+              }}
+              className="rounded-md bg-emerald-700 p-2 hover:bg-emerald-800"
+            >
+              connect
+            </button>
+          </span>{" "}
+          your streamlabs first.
+        </h1>
+      </div>
     );
   }
 
