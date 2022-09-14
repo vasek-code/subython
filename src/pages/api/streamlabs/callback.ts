@@ -1,10 +1,10 @@
 import { NextApiHandler } from "next";
 import { env } from "../../../env/server.mjs";
-import FormData from "form-data";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../../server/db/client";
+import FormData from "form-data"
 
 const StreamLabsAuth: NextApiHandler = async (req, res) => {
   try {
@@ -28,6 +28,8 @@ const StreamLabsAuth: NextApiHandler = async (req, res) => {
     );
     formTokenData.append("code", code);
 
+    console.log(formTokenData)
+
     const tokenRes = await fetch(
       `https://streamlabs.com/api/v1.0/token`,
 
@@ -46,6 +48,8 @@ const StreamLabsAuth: NextApiHandler = async (req, res) => {
     } = await tokenRes.json();
 
     const formSocketData = new FormData();
+
+    console.log(tokenData, "TOKEN DATA")
 
     formSocketData.append("access_token", tokenData.access_token);
 
@@ -113,6 +117,8 @@ const StreamLabsAuth: NextApiHandler = async (req, res) => {
 
     res.redirect("/me");
   } catch (e) {
+    console.log("ERROR", e)
+
     res.redirect(
       encodeURI(
         "/me/configure?error=Your streamlabs account is already connected."
